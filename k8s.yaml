@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pyweb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pyweb
+  template:
+    metadata:
+      labels:
+        app: pyweb
+    spec:
+      containers:
+        - name: pyweb
+          image: pyweb:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyweb
+spec:
+  type: NodePort
+  selector:
+    app: pyweb
+  ports:
+    - port: 80
+      targetPort: 8080
