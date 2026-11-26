@@ -27,7 +27,7 @@ class Handler(BaseHTTPRequestHandler):
             }
             self._send(200, json.dumps(info), "application/json")
         elif self.path == "/":
-            self._send(200, f"Hallo aus Minikube! Pod: {socket.gethostname()}\n")
+            self._send(200, f"Hallo vom Mac! Pod: {socket.gethostname()}\n")
         else:
             self._send(404, "not found")
 
