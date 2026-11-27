@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pyweb
-          image: ghcr.io/ximperator/pyweb:sha-d91c240
+          image: ghcr.io/ximperator/pyweb:sha-60ce396
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
